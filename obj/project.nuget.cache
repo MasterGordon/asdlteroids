@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "Z+HnQHJqEH3pQORn3oK/9WhS17M4sshlWSQ2haefUhu7xmUXe4i6NFbFXNMZCMcHlSu1wQ2wELP7qH7RGQ0Smw==",
+  "success": true,
+  "projectFilePath": "/home/gordon/git/dotnet-console/dotnet-console.csproj",
+  "expectedPackageFiles": [
+    "/home/gordon/.nuget/packages/ppy.sdl2-cs/1.0.596-alpha/ppy.sdl2-cs.1.0.596-alpha.nupkg.sha512",
+    "/home/gordon/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.9/microsoft.aspnetcore.app.ref.6.0.9.nupkg.sha512"
+  ],
+  "logs": []
+}
