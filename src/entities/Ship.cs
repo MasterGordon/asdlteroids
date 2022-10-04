@@ -1,6 +1,3 @@
-using static SDL2.SDL;
-
-
 class Ship : Logic, Renderable
 {
     const double SPEED = 0.3;
@@ -22,24 +19,25 @@ class Ship : Logic, Renderable
     public void Update(KeyState keyState, double dt)
     {
         thrust = false;
-        if (keyState.isPressed(SDL_Keycode.SDLK_LEFT))
+        if (keyState.isPressed(Control.LEFT))
         {
             rotation -= ROTATION_SPEED * dt;
         }
-        if (keyState.isPressed(SDL_Keycode.SDLK_RIGHT))
+        if (keyState.isPressed(Control.RIGHT))
         {
             rotation += ROTATION_SPEED * dt;
         }
-        if (keyState.isPressed(SDL_Keycode.SDLK_UP))
+        if (keyState.isPressed(Control.THRUST))
         {
             thrust = true;
             this.dx += Math.Cos(rotation) * SPEED * dt;
             this.dy += Math.Sin(rotation) * SPEED * dt;
         }
-        if (keyState.isPressed(SDL_Keycode.SDLK_SPACE) && (DateTime.Now - lastShot).TotalMilliseconds > 200)
+        if (keyState.isPressed(Control.SHOOT) && (DateTime.Now - lastShot).TotalMilliseconds > 200)
         {
             lastShot = DateTime.Now;
             var shot = new Shot(x, y, rotation);
+            Scene.Instance.AudioPlayer.Play(Sound.SHOT);
             Scene.Instance.Shots.Add(shot);
         }
         rotation = rotation % (2 * Math.PI);
@@ -63,7 +61,8 @@ class Ship : Logic, Renderable
         }
         foreach (var asteroid in Scene.Instance.Asteroids)
         {
-            if (Point.Distance(x, y, asteroid.X, asteroid.Y) < (int)asteroid.Size / 2)
+            var halfAsteroidSize = (int)asteroid.Size / 2;
+            if (Point.Distance(x, y, asteroid.X - halfAsteroidSize, asteroid.Y - halfAsteroidSize) < halfAsteroidSize + 3)
             {
                 Scene.Instance.Loose();
             }
@@ -74,20 +73,28 @@ class Ship : Logic, Renderable
     {
         renderer.setColor(255, 255, 255);
         renderer.DrawLines(new double[][] {
-            new double[]{x + Math.Cos(rotation) * 10, y + Math.Sin(rotation) * 10},
-            new double[]{x + Math.Cos(rotation + Math.PI * 2 / 3) * 10, y + Math.Sin(rotation + Math.PI * 2 / 3) * 10},
-            new double[]{x + Math.Cos(rotation + Math.PI * 4 / 3) * 10, y + Math.Sin(rotation + Math.PI * 4 / 3) * 10},
-            new double[]{x + Math.Cos(rotation) * 10, y + Math.Sin(rotation) * 10}
+            new double[] { x + Math.Cos(rotation) * 10, y + Math.Sin(rotation) * 10 },
+            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3) * 10, y + Math.Sin(rotation + (Math.PI * 2) / 3) * 10 },
+            new double[] { x + Math.Cos(rotation) * 10, y + Math.Sin(rotation) * 10 },
+            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3 * 2) * 10, y + Math.Sin(rotation + (Math.PI * 2) / 3 * 2) * 10 },
             });
+        renderer.DrawLines(new double[][] {
+            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3) * 5, y + Math.Sin(rotation + (Math.PI * 2) / 3) * 5 },
+            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3 * 2) * 5, y + Math.Sin(rotation + (Math.PI * 2) / 3 * 2) * 5 },
+            });
+
         if (thrust)
         {
             renderer.setColor(255, 0, 0);
+            var random = new Random();
             // Draw flame behind ship
             renderer.DrawLines(new double[][] {
-                new double[]{x + Math.Cos(rotation + Math.PI * 2 / 3) * 10, y + Math.Sin(rotation + Math.PI * 2 / 3) * 10},
-                new double[]{x + Math.Cos(rotation + Math.PI * 2 / 3) * 10 + Math.Cos(rotation + Math.PI) * 10, y + Math.Sin(rotation + Math.PI * 2 / 3) * 10 + Math.Sin(rotation + Math.PI) * 10},
-                new double[]{x + Math.Cos(rotation + Math.PI * 4 / 3) * 10, y + Math.Sin(rotation + Math.PI * 4 / 3) * 10},
-                new double[]{x + Math.Cos(rotation + Math.PI * 2 / 3) * 10, y + Math.Sin(rotation + Math.PI * 2 / 3) * 10}
+            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3) * 10, y + Math.Sin(rotation + (Math.PI * 2) / 3) * 10 },
+            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3 * 1.2) * 5+random.Next(5), y + Math.Sin(rotation + (Math.PI * 2) / 3 * 1.2) * 5+random.Next(5) },
+            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3 * 1.4) * 10, y + Math.Sin(rotation + (Math.PI * 2) / 3 * 1.4) * 10 },
+            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3 * 1.6) * 6+random.Next(5), y + Math.Sin(rotation + (Math.PI * 2) / 3 * 1.6) * 5+random.Next(4) },
+            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3 * 1.8) * 10, y + Math.Sin(rotation + (Math.PI * 2) / 3 * 1.8) * 10 },
+            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3 * 2) * 5+random.Next(5), y + Math.Sin(rotation + (Math.PI * 2) / 3 * 2) * 5+random.Next(5) },
                 });
         }
     }

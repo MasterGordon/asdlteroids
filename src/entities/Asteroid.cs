@@ -34,7 +34,6 @@ class Asteroid : Renderable, Logic
     public void Render(Renderer renderer, double dx)
     {
         renderer.setColor(255, 255, 255);
-        // renderer.DrawRect(X - (int)Size / 2, Y - (int)Size / 2, (int)Size, (int)Size);
         double[][] drawLines = new double[shape.Length + 1][];
         for (int i = 0; i < shape.Length; i++)
         {
@@ -65,7 +64,8 @@ class Asteroid : Renderable, Logic
 
         foreach (var shot in Scene.Instance.Shots)
         {
-            if (Point.Distance(shot.X, shot.Y, X, Y) < (int)Size / 2)
+            var halfSize = (int)Size / 2;
+            if (Point.Distance(shot.X, shot.Y, X - halfSize, Y - halfSize) < (int)Size / 2)
             {
                 shot.Destroy();
                 this.Destroy();
@@ -88,6 +88,7 @@ class Asteroid : Renderable, Logic
 
     public void Destroy()
     {
+        Scene.Instance.AudioPlayer.Play(Sound.EXPLOSION);
         Scene.Instance.Score += (int)Size;
         Scene.Instance.Asteroids.Remove(this);
         Console.WriteLine("Asteroid destroyed");

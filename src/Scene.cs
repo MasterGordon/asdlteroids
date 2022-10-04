@@ -12,6 +12,7 @@ class Scene
     public HashSet<Asteroid> Asteroids;
     public int Score = 0;
     public int Level = 1;
+    public AudioPlayer AudioPlayer;
 
     public Scene(Renderer renderer)
     {
@@ -19,6 +20,9 @@ class Scene
         this.Shots = new HashSet<Shot>();
         this.Asteroids = new HashSet<Asteroid>();
         this.renderer = renderer;
+        this.AudioPlayer = new AudioPlayer();
+        this.AudioPlayer.Register(Sound.SHOT, "assets.shot.wav");
+        this.AudioPlayer.Register(Sound.EXPLOSION, "assets.explode.wav");
         instance = this;
     }
 

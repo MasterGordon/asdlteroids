@@ -17,4 +17,9 @@ class KeyState
         byte scanCode = (byte)SDL_GetScancodeFromKey(keycode);
         return (this.keys[scanCode] == 1);
     }
+
+    public bool isPressed(Control c)
+    {
+        return this.isPressed(c.Key());
+    }
 }
