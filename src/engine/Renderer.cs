@@ -52,4 +52,9 @@ class Renderer
     {
         SDL_SetRenderDrawColor(renderer, (byte)r, (byte)g, (byte)b, (byte)a);
     }
+
+    public IntPtr GetRaw()
+    {
+        return renderer;
+    }
 }

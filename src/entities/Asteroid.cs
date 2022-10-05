@@ -91,7 +91,5 @@ class Asteroid : Renderable, Logic
         Scene.Instance.AudioPlayer.Play(Sound.EXPLOSION);
         Scene.Instance.Score += (int)Size;
         Scene.Instance.Asteroids.Remove(this);
-        Console.WriteLine("Asteroid destroyed");
-        Console.WriteLine("Score: " + Scene.Instance.Score);
     }
 }

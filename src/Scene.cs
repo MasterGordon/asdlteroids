@@ -5,6 +5,7 @@ class Scene
     public const int SCREEN_WIDTH = 800;
     public const int SCREEN_HEIGHT = 600;
     private Ship ship;
+    private UI ui;
     private Renderer renderer;
     private static Scene? instance;
 
@@ -13,10 +14,12 @@ class Scene
     public int Score = 0;
     public int Level = 1;
     public AudioPlayer AudioPlayer;
+    public bool running = true;
 
     public Scene(Renderer renderer)
     {
         this.ship = new Ship(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+        this.ui = new UI();
         this.Shots = new HashSet<Shot>();
         this.Asteroids = new HashSet<Asteroid>();
         this.renderer = renderer;
@@ -26,12 +29,22 @@ class Scene
         instance = this;
     }
 
+    public void Restart()
+    {
+        this.running = true;
+        this.Score = 0;
+        this.Level = 1;
+        this.Asteroids.Clear();
+        this.Shots.Clear();
+        this.ship = new Ship(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+        SpawnAsteroids(Level + 3);
+    }
+
     public int Run()
     {
-
+        SpawnAsteroids(Level + 3);
         double dx = 0;
         DateTime start = DateTime.Now;
-        SpawnAsteroids(Level + 3);
         while (true)
         {
             start = DateTime.Now;
@@ -39,6 +52,7 @@ class Scene
 
             var entities = new List<Object>();
             entities.Add(ship);
+            entities.Add(ui);
             entities.AddRange(Shots);
             entities.AddRange(Asteroids);
 
@@ -47,7 +61,7 @@ class Scene
 
             foreach (var entity in entities)
             {
-                if (entity is Logic)
+                if (entity is Logic && running)
                 {
                     ((Logic)entity).Update(keyState, dx);
                 }
@@ -62,8 +76,16 @@ class Scene
                 Level++;
                 SpawnAsteroids(Level + 3);
             }
+            if (!running)
+            {
+                if (keyState.isPressed(Control.RESTART))
+                {
+                    this.Restart();
+                }
+            }
 
             renderer.Present();
+            SDL_Delay(10);
             DateTime end = DateTime.Now;
             dx = (end - start).TotalSeconds;
         }
@@ -106,8 +128,7 @@ class Scene
 
     public void Loose()
     {
-        Console.WriteLine("You loose!");
-        Environment.Exit(0);
+        running = false;
     }
 
     private void pollEvents()

@@ -5,7 +5,8 @@ enum Control
     THRUST,
     LEFT,
     RIGHT,
-    SHOOT
+    SHOOT,
+    RESTART
 }
 
 static class ControlKeyExtension
@@ -15,13 +16,15 @@ static class ControlKeyExtension
         switch (c)
         {
             case Control.THRUST:
-                return SDL_Keycode.SDLK_UP;
+                return SDL_Keycode.SDLK_w;
             case Control.LEFT:
-                return SDL_Keycode.SDLK_LEFT;
+                return SDL_Keycode.SDLK_a;
             case Control.RIGHT:
-                return SDL_Keycode.SDLK_RIGHT;
+                return SDL_Keycode.SDLK_d;
             case Control.SHOOT:
                 return SDL_Keycode.SDLK_SPACE;
+            case Control.RESTART:
+                return SDL_Keycode.SDLK_r;
             default:
                 throw new ArgumentException("Invalid control");
         }

@@ -1,6 +1,6 @@
 class Ship : Logic, Renderable
 {
-    const double SPEED = 0.3;
+    const double SPEED = 3;
     const double ROTATION_SPEED = 5;
 
     double rotation = 0;
