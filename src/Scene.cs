@@ -3,12 +3,13 @@ using static SDL2.SDL;
 class Scene
 {
     public const double SCALE = 2;
-    public const int SCREEN_WIDTH = (int)(800 * SCALE);
-    public const int SCREEN_HEIGHT = (int)(600 * SCALE);
+    public static int SCREEN_WIDTH = (int)(800 * SCALE);
+    public static int SCREEN_HEIGHT = (int)(600 * SCALE);
     private Ship ship;
     private UI ui;
     private Renderer renderer;
     private static Scene? instance;
+    private Window window;
 
     public Ufo ufo;
     public HashSet<Shot> Shots;
@@ -18,11 +19,12 @@ class Scene
     public AudioPlayer AudioPlayer;
     public bool running = true;
 
-    public Scene(Renderer renderer)
+    public Scene(Renderer renderer, Window window)
     {
         this.ship = new Ship(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
         this.ufo = new Ufo(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
         this.ui = new UI();
+        this.window = window;
         this.Shots = new HashSet<Shot>();
         this.Asteroids = new HashSet<Asteroid>();
         this.renderer = renderer;
@@ -50,6 +52,9 @@ class Scene
         DateTime start = DateTime.Now;
         while (true)
         {
+            var size = window.GetSize();
+            SCREEN_WIDTH = size.width;
+            SCREEN_HEIGHT = size.height;
             start = DateTime.Now;
             pollEvents();
 
