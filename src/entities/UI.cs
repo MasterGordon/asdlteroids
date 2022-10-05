@@ -1,6 +1,5 @@
 using static SDL2.SDL_ttf;
 using static SDL2.SDL;
-using System.Runtime.InteropServices;
 
 class UI : Renderable
 {
@@ -9,7 +8,15 @@ class UI : Renderable
     public UI()
     {
         TTF_Init();
-        this.font = SDL2.SDL_ttf.TTF_OpenFont("/home/gordon/git/dotnet-console/assets/font.ttf", 18);
+        var assemblyName = this.GetType().Assembly.GetName().Name!;
+        var fontStream = this.GetType().Assembly.GetManifestResourceStream($"{assemblyName}.assets.font.ttf");
+        var fontFile = System.IO.Path.GetTempPath() + "asdlteroids-font.ttf";
+        using (var fileStream = System.IO.File.Create(fontFile))
+        {
+            fontStream!.CopyTo(fileStream);
+        }
+
+        this.font = SDL2.SDL_ttf.TTF_OpenFont(fontFile, 18);
     }
 
     public void Render(Renderer renderer, double dx)
