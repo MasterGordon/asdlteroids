@@ -10,6 +10,7 @@ class Scene
     private Renderer renderer;
     private static Scene? instance;
 
+    public Ufo ufo;
     public HashSet<Shot> Shots;
     public HashSet<Asteroid> Asteroids;
     public int Score = 0;
@@ -20,6 +21,7 @@ class Scene
     public Scene(Renderer renderer)
     {
         this.ship = new Ship(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+        this.ufo = new Ufo(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
         this.ui = new UI();
         this.Shots = new HashSet<Shot>();
         this.Asteroids = new HashSet<Asteroid>();
@@ -54,6 +56,7 @@ class Scene
             var entities = new List<Object>();
             entities.Add(ship);
             entities.Add(ui);
+            // entities.Add(ufo);
             entities.AddRange(Shots);
             entities.AddRange(Asteroids);
 

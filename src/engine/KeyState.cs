@@ -9,7 +9,7 @@ class KeyState
     {
         var origArray = SDL_GetKeyboardState(out var arraySize);
         this.keys = new byte[arraySize];
-        Marshal.Copy(origArray, keys, 0, arraySize);
+        Marshal.Copy(origArray, this.keys, 0, arraySize);
     }
 
     public bool isPressed(SDL_Keycode keycode)

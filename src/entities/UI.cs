@@ -59,5 +59,7 @@ class UI : Renderable
         }
 
         SDL_RenderCopy(renderer.GetRaw(), texture, IntPtr.Zero, ref rect);
+        SDL_DestroyTexture(texture);
+        SDL_FreeSurface(surfaceMessage);
     }
 }

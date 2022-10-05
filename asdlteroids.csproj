@@ -5,6 +5,9 @@
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>asdlteroids</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
+    <PublishTrimmed>true</PublishTrimmed>
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <PublishSingleFile>true</PublishSingleFile>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
