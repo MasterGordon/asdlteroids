@@ -7,7 +7,7 @@ enum Size : int
 
 class Asteroid : Renderable, Logic
 {
-    const double SPEED = 100;
+    const double SPEED = 100 * Scene.SCALE;
     private double dx, dy;
     public double X, Y;
     public Size Size;
@@ -26,8 +26,8 @@ class Asteroid : Renderable, Logic
         {
             var rad = i * Math.PI * 2 / shape.Length;
             shape[i] = new double[2];
-            shape[i][0] = Math.Cos(rad) * (0.5 + random.NextDouble() / 2) * (int)size / 2;
-            shape[i][1] = Math.Sin(rad) * (0.5 + random.NextDouble() / 2) * (int)size / 2;
+            shape[i][0] = Math.Cos(rad) * (0.5 + random.NextDouble() / 2) * (int)size / 2 * Scene.SCALE;
+            shape[i][1] = Math.Sin(rad) * (0.5 + random.NextDouble() / 2) * (int)size / 2 * Scene.SCALE;
         }
     }
 
@@ -35,15 +35,16 @@ class Asteroid : Renderable, Logic
     {
         renderer.setColor(255, 255, 255);
         double[][] drawLines = new double[shape.Length + 1][];
+        var halfSize = (int)Size / 2 * Scene.SCALE;
         for (int i = 0; i < shape.Length; i++)
         {
             drawLines[i] = new double[2];
-            drawLines[i][0] = shape[i][0] + X - (int)Size / 2;
-            drawLines[i][1] = shape[i][1] + Y - (int)Size / 2;
+            drawLines[i][0] = shape[i][0] + X - halfSize;
+            drawLines[i][1] = shape[i][1] + Y - halfSize;
         }
         drawLines[drawLines.Length - 1] = new double[2];
-        drawLines[drawLines.Length - 1][0] = shape[0][0] + X - (int)Size / 2;
-        drawLines[drawLines.Length - 1][1] = shape[0][1] + Y - (int)Size / 2;
+        drawLines[drawLines.Length - 1][0] = shape[0][0] + X - halfSize;
+        drawLines[drawLines.Length - 1][1] = shape[0][1] + Y - halfSize;
         renderer.DrawLines(drawLines);
     }
 
@@ -64,8 +65,8 @@ class Asteroid : Renderable, Logic
 
         foreach (var shot in Scene.Instance.Shots)
         {
-            var halfSize = (int)Size / 2;
-            if (Point.Distance(shot.X, shot.Y, X - halfSize, Y - halfSize) < (int)Size / 2)
+            var halfSize = (int)Size / 2 * Scene.SCALE;
+            if (Point.Distance(shot.X, shot.Y, X - halfSize, Y - halfSize) < halfSize)
             {
                 shot.Destroy();
                 this.Destroy();

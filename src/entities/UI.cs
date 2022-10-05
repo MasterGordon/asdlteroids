@@ -4,10 +4,16 @@ using static SDL2.SDL;
 class UI : Renderable
 {
     IntPtr font;
+    SDL_Color color;
 
     public UI()
     {
         TTF_Init();
+        color = new SDL_Color();
+        color.r = 255;
+        color.g = 255;
+        color.b = 255;
+        color.a = 255;
         var assemblyName = this.GetType().Assembly.GetName().Name!;
         var fontStream = this.GetType().Assembly.GetManifestResourceStream($"{assemblyName}.assets.font.ttf");
         var fontFile = System.IO.Path.GetTempPath() + "asdlteroids-font.ttf";
@@ -21,12 +27,18 @@ class UI : Renderable
 
     public void Render(Renderer renderer, double dx)
     {
-        var white = new SDL_Color();
-        white.r = 255;
-        white.g = 255;
-        white.b = 255;
-        white.a = 255;
-        var surfaceMessage = TTF_RenderText_Solid(this.font, "Score: " + Scene.Instance.Score, white);
+        RenderText(renderer, "Score: " + Scene.Instance.Score, 0, 0);
+        RenderText(renderer, "Level: " + Scene.Instance.Level, 0, 20);
+
+        if (!Scene.Instance.running && DateTime.Now.Second % 2 == 0)
+        {
+            RenderText(renderer, "Press r to restart", Scene.SCREEN_WIDTH / 2, Scene.SCREEN_HEIGHT / 2, true);
+        }
+    }
+
+    public void RenderText(Renderer renderer, String text, int x, int y, bool center = false)
+    {
+        var surfaceMessage = TTF_RenderText_Solid(this.font, text, this.color);
 
         var texture = SDL_CreateTextureFromSurface(renderer.GetRaw(), surfaceMessage);
         int width;
@@ -35,29 +47,17 @@ class UI : Renderable
         SDL_QueryTexture(texture, out _, out _, out width, out height);
 
         SDL_Rect rect = new SDL_Rect();
-        rect.x = 0;
-        rect.y = 0;
+        rect.x = x;
+        rect.y = y;
         rect.w = width;
         rect.h = height;
 
-        SDL_RenderCopy(renderer.GetRaw(), texture, IntPtr.Zero, ref rect);
-
-        if (!Scene.Instance.running)
+        if (center)
         {
-            var surfaceMessage2 = TTF_RenderText_Solid(this.font, "Press r to restart", white);
-            var texture2 = SDL_CreateTextureFromSurface(renderer.GetRaw(), surfaceMessage2);
-            int width2;
-            int height2;
-
-            SDL_QueryTexture(texture2, out _, out _, out width2, out height2);
-
-            SDL_Rect rect2 = new SDL_Rect();
-            rect2.x = Scene.SCREEN_WIDTH / 2 - width2 / 2;
-            rect2.y = Scene.SCREEN_HEIGHT / 2 - height2 / 2;
-            rect2.w = width2;
-            rect2.h = height2;
-
-            SDL_RenderCopy(renderer.GetRaw(), texture2, IntPtr.Zero, ref rect2);
+            rect.x -= width / 2;
+            rect.y -= height / 2;
         }
+
+        SDL_RenderCopy(renderer.GetRaw(), texture, IntPtr.Zero, ref rect);
     }
 }

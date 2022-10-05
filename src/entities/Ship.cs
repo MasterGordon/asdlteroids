@@ -1,6 +1,6 @@
 class Ship : Logic, Renderable
 {
-    const double SPEED = 3;
+    const double SPEED = 3 * Scene.SCALE;
     const double ROTATION_SPEED = 5;
 
     double rotation = 0;
@@ -61,8 +61,8 @@ class Ship : Logic, Renderable
         }
         foreach (var asteroid in Scene.Instance.Asteroids)
         {
-            var halfAsteroidSize = (int)asteroid.Size / 2;
-            if (Point.Distance(x, y, asteroid.X - halfAsteroidSize, asteroid.Y - halfAsteroidSize) < halfAsteroidSize + 3)
+            var halfAsteroidSize = (int)asteroid.Size / 2 * Scene.SCALE;
+            if (Point.Distance(x, y, asteroid.X - halfAsteroidSize, asteroid.Y - halfAsteroidSize) < halfAsteroidSize)
             {
                 Scene.Instance.Loose();
             }
@@ -73,14 +73,14 @@ class Ship : Logic, Renderable
     {
         renderer.setColor(255, 255, 255);
         renderer.DrawLines(new double[][] {
-            new double[] { x + Math.Cos(rotation) * 10, y + Math.Sin(rotation) * 10 },
-            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3) * 10, y + Math.Sin(rotation + (Math.PI * 2) / 3) * 10 },
-            new double[] { x + Math.Cos(rotation) * 10, y + Math.Sin(rotation) * 10 },
-            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3 * 2) * 10, y + Math.Sin(rotation + (Math.PI * 2) / 3 * 2) * 10 },
+            new double[] { x + Math.Cos(rotation) * 10 * Scene.SCALE, y + Math.Sin(rotation) * 10 * Scene.SCALE },
+            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3) * 10 * Scene.SCALE, y + Math.Sin(rotation + (Math.PI * 2) / 3) * 10  * Scene.SCALE},
+            new double[] { x + Math.Cos(rotation) * 10 * Scene.SCALE, y + Math.Sin(rotation) * 10  * Scene.SCALE},
+            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3 * 2) * 10 * Scene.SCALE, y + Math.Sin(rotation + (Math.PI * 2) / 3 * 2) * 10 * Scene.SCALE },
             });
         renderer.DrawLines(new double[][] {
-            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3) * 5, y + Math.Sin(rotation + (Math.PI * 2) / 3) * 5 },
-            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3 * 2) * 5, y + Math.Sin(rotation + (Math.PI * 2) / 3 * 2) * 5 },
+            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3) * 5 * Scene.SCALE, y + Math.Sin(rotation + (Math.PI * 2) / 3) * 5 * Scene.SCALE },
+            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3 * 2) * 5 * Scene.SCALE, y + Math.Sin(rotation + (Math.PI * 2) / 3 * 2) * 5 * Scene.SCALE },
             });
 
         if (thrust)
@@ -89,12 +89,12 @@ class Ship : Logic, Renderable
             var random = new Random();
             // Draw flame behind ship
             renderer.DrawLines(new double[][] {
-            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3) * 10, y + Math.Sin(rotation + (Math.PI * 2) / 3) * 10 },
-            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3 * 1.2) * 5+random.Next(5), y + Math.Sin(rotation + (Math.PI * 2) / 3 * 1.2) * 5+random.Next(5) },
-            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3 * 1.4) * 10, y + Math.Sin(rotation + (Math.PI * 2) / 3 * 1.4) * 10 },
-            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3 * 1.6) * 6+random.Next(5), y + Math.Sin(rotation + (Math.PI * 2) / 3 * 1.6) * 5+random.Next(4) },
-            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3 * 1.8) * 10, y + Math.Sin(rotation + (Math.PI * 2) / 3 * 1.8) * 10 },
-            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3 * 2) * 5+random.Next(5), y + Math.Sin(rotation + (Math.PI * 2) / 3 * 2) * 5+random.Next(5) },
+            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3) * 10 * Scene.SCALE, y + Math.Sin(rotation + (Math.PI * 2) / 3) * 10  * Scene.SCALE},
+            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3 * 1.2) * 5+random.Next(5) * Scene.SCALE, y + Math.Sin(rotation + (Math.PI * 2) / 3 * 1.2) * 5+random.Next(5) * Scene.SCALE },
+            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3 * 1.4) * 10 * Scene.SCALE, y + Math.Sin(rotation + (Math.PI * 2) / 3 * 1.4) * 10 * Scene.SCALE },
+            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3 * 1.6) * 6+random.Next(5) * Scene.SCALE, y + Math.Sin(rotation + (Math.PI * 2) / 3 * 1.6) * 5+random.Next(4) * Scene.SCALE },
+            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3 * 1.8) * 10 * Scene.SCALE, y + Math.Sin(rotation + (Math.PI * 2) / 3 * 1.8) * 10 * Scene.SCALE },
+            new double[] { x + Math.Cos(rotation + (Math.PI * 2) / 3 * 2) * 5+random.Next(5) * Scene.SCALE, y + Math.Sin(rotation + (Math.PI * 2) / 3 * 2) * 5+random.Next(5) * Scene.SCALE },
                 });
         }
     }

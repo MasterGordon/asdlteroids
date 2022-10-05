@@ -2,8 +2,9 @@ using static SDL2.SDL;
 
 class Scene
 {
-    public const int SCREEN_WIDTH = 800;
-    public const int SCREEN_HEIGHT = 600;
+    public const double SCALE = 1.5;
+    public const int SCREEN_WIDTH = (int)(800 * SCALE);
+    public const int SCREEN_HEIGHT = (int)(600 * SCALE);
     private Ship ship;
     private UI ui;
     private Renderer renderer;

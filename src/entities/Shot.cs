@@ -1,6 +1,6 @@
 class Shot : Renderable, Logic
 {
-    const double SPEED = 300;
+    const double SPEED = 300 * Scene.SCALE;
     private double dx, dy;
     public double X, Y;
 
