@@ -2,6 +2,6 @@
 
 A Asteroids clone written with SDL2 in C#
 
-![image](https://user-images.githubusercontent.com/18127395/193684679-c37c84f4-202f-4569-a148-832b9c065c12.png)
+![image](https://user-images.githubusercontent.com/18127395/194102382-e05a03f1-378b-4c22-8623-28287e3152d3.png)
 
-![image](https://user-images.githubusercontent.com/18127395/193684735-7fd8bdd1-47ad-4cbb-90b8-89501b397c98.png)
+![image](https://user-images.githubusercontent.com/18127395/194102440-f4557902-cd3b-4a91-9cc0-01757e84cdbe.png)
