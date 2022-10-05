@@ -15,7 +15,8 @@ class Shot : Renderable, Logic
     public void Render(Renderer renderer, double dx)
     {
         renderer.setColor(255, 255, 255);
-        renderer.DrawRect(X, Y, 2, 2);
+        var size = (int)(2 * Scene.SCALE);
+        renderer.DrawRect(X, Y, size, size);
     }
 
     public void Update(KeyState keyState, double dx)
